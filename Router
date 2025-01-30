@@ -1,0 +1,129 @@
+# React Router v7 - Zusammenfassung
+
+## 1️⃣ Installation
+React Router v7 wird mit `react-router` installiert:
+```sh
+npm install react-router
+```
+
+## 2️⃣ Grundlegende Einrichtung
+Die Routen werden in der `App.jsx` über `Routes` und `Route` definiert:
+```tsx
+import { RouterProvider, createBrowserRouter } from "react-router";
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import NotFoundPage from "./pages/NotFoundPage";
+
+const router = createBrowserRouter([
+  { path: "/", element: <HomePage /> },
+  { path: "/about", element: <AboutPage /> },
+  { path: "*", element: <NotFoundPage /> },
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+export default App;
+```
+
+## 3️⃣ Navigation mit `Link` & `NavLink`
+Verwende `Link` oder `NavLink`, um zwischen Seiten zu wechseln, ohne die Seite neu zu laden:
+```tsx
+import { Link, NavLink } from "react-router";
+
+function Navbar() {
+  return (
+    <nav>
+      <Link to="/">Home</Link>
+      <NavLink to="/about" activeClassName="active">About</NavLink>
+    </nav>
+  );
+}
+```
+- `Link` ist ein einfacher Navigationslink.
+- `NavLink` fügt automatisch eine CSS-Klasse hinzu (`active`), wenn die Route aktiv ist.
+
+## 4️⃣ Dynamische Routen & `useParams()`
+Falls du **dynamische Routen** mit Parametern benötigst:
+```tsx
+import { useParams } from "react-router";
+
+function UserProfile() {
+  const { userId } = useParams();
+  return <h2>Profil von Benutzer {userId}</h2>;
+}
+```
+
+### Route mit Parameter in `App.jsx`
+```tsx
+{ path: "/user/:userId", element: <UserProfile /> }
+```
+Beim Aufruf von `/user/123` zeigt die Komponente `UserProfile` die ID `123` an.
+
+## 5️⃣ Programmatische Navigation mit `useNavigate()`
+Um den Nutzer nach einer Aktion weiterzuleiten:
+```tsx
+import { useNavigate } from "react-router";
+
+function LoginPage() {
+  const navigate = useNavigate();
+
+  function handleLogin() {
+    // Nach erfolgreichem Login weiterleiten
+    navigate("/dashboard");
+  }
+
+  return <button onClick={handleLogin}>Einloggen</button>;
+}
+```
+
+## 6️⃣ Redirects mit `<Navigate />`
+Falls du einen automatischen Redirect benötigst:
+```tsx
+{ path: "/old-path", element: <Navigate to="/new-path" replace /> }
+```
+
+## 7️⃣ Geschützte Routen (Protected Routes)
+Um nur authentifizierte Nutzer auf bestimmte Seiten zu lassen:
+```tsx
+function PrivateRoute({ element }) {
+  const isAuthenticated = false; // Zustand von Auth-Context oder Redux
+  return isAuthenticated ? element : <Navigate to="/login" replace />;
+}
+```
+Verwendung in `App.jsx`:
+```tsx
+{ path: "/dashboard", element: <PrivateRoute element={<Dashboard />} /> }
+```
+
+## 8️⃣ Laden von Daten mit `useLoaderData()` (React Router Data APIs)
+```tsx
+import { useLoaderData } from "react-router";
+
+export async function loader() {
+  const response = await fetch("https://api.example.com/user");
+  return response.json();
+}
+
+function UserPage() {
+  const user = useLoaderData();
+  return <h2>Willkommen, {user.name}!</h2>;
+}
+```
+
+Route mit Loader:
+```tsx
+{ path: "/user", element: <UserPage />, loader: loader }
+```
+
+## Fazit 🚀
+✅ `RouterProvider` & `createBrowserRouter` für die Seitenstruktur nutzen  
+✅ `useNavigate()` für programmatische Navigation  
+✅ `useParams()` für dynamische Routen  
+✅ `useLoaderData()` für Datenfetching mit React Router  
+✅ `Navigate` für automatische Weiterleitungen  
+✅ `PrivateRoute` für geschützte Seiten  
+
+🔹 **Mit diesen Konzepten bist du fit für React Router v7!**
+
