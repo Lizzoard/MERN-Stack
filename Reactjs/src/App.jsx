@@ -10,10 +10,14 @@ const App = () => {
     { id: 'cg3', text: 'Help other students in the Course q & a section' },
   ]);
 
-  const addNewGoalHandler = (newGoal) => { 
-    setCourseGoal(courseGoals.concat(newGoal))
-    console.log(courseGoals);
-  } 
+  const addNewGoalHandler = (newGoal) => {
+    // setCourseGoal(courseGoals.concat(newGoal))
+    const newGoalObject = {
+      id: Date.now().toString(),
+      text: newGoal
+    };
+    setCourseGoal((prevCourseGoals) => prevCourseGoals.concat(newGoalObject));
+  }; 
 
   return (
     <div>
