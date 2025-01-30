@@ -1,0 +1,8 @@
+.new-goal {
+  margin: 1rem auto;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  width: 50%;
+  max-width: 40rem;
+  text-align: center;
+}

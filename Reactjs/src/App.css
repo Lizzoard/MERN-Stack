@@ -1,0 +1,16 @@
+.course-goals {
+text-align: center;
+}
+
+.goal-list {
+  list-style-type: none;
+  margin: 2rem;
+  padding: 0;
+}
+
+.goal-list li {
+  margin: 1rem 0;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+}
